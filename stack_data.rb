@@ -20,16 +20,16 @@ end
 
 class Deck
   attr_reader :card_array
-  
+
   def initialize(file)
     @card_array = []
     @file = file
     self.load!
-    self.shuffle!
+    self.shuffle_deck!
   end
 
-  def shuffle!
-
+  def shuffle_deck!
+    @card_array.shuffle!
   end
 
   def load!
@@ -53,4 +53,6 @@ end
 ########## Driver code #########
 
 deck1 = Deck.new('cards.txt')
-puts deck1.card_array
+deck1.card_array.each do |card|
+  puts card.answer
+end   
