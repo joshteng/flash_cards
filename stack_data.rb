@@ -49,10 +49,30 @@ class Card
 
 end
 
+module Ui
+  def self.splash_screen
+    puts "Welcome to Flash Cards Game!"
+  end
+
+  def self.user_output(text)
+    puts text
+  end
+
+  def self.user_input
+    print "Guess: "
+    gets.chomp
+  end
+
+end
 
 ########## Driver code #########
 
-deck1 = Deck.new('cards.txt')
-deck1.card_array.each do |card|
-  puts card.answer
-end   
+Ui::splash_screen
+Ui::user_output("This works!")
+x = Ui::user_input
+Ui::user_output("You guessed: #{x}")
+
+# deck1 = Deck.new('cards.txt')
+# deck1.card_array.each do |card|
+#   puts card.answer
+# end   
