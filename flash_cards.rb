@@ -2,6 +2,8 @@
 
 module DeckData
 
+  #I already made changes dude
+
   def self.cards(file)
     card_data_raw = File.open(file).readlines
     definition = []
