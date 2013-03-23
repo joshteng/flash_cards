@@ -1,3 +1,5 @@
+# Authors: Alex Ray, Conor Flanagan, Nick Ibanez, Joshua Teng
+
 module DeckData
 
   def self.cards(file)
@@ -109,6 +111,8 @@ end
 
 ########## Driver code #########
 
+# Setting up new deck with cards.txt file
 deck1 = Deck.new('cards.txt')
+# Initializing Game!
 Game.new(deck1)
 
