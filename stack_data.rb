@@ -1,11 +1,11 @@
 module DeckData
 
   def self.cards(file)
-    array = File.open(file).readlines
+    card_data_raw = File.open(file).readlines
     definition = []
     answer = []
 
-    array.each_with_index do |line, index|
+    card_data_raw.each_with_index do |line, index|
       if index % 3 == 0
         definition << line.chomp
       elsif index % 3 == 1
@@ -24,8 +24,8 @@ class Deck
   def initialize(file)
     @card_array = []
     @file = file
-    self.load!
-    self.shuffle_deck!
+    load!
+    shuffle_deck!
   end
 
   def shuffle_deck!
@@ -50,12 +50,16 @@ class Card
 end
 
 module Ui
-  def self.splash_screen
+  def splash_screen
     puts "Welcome to Flash Cards Game!"
+    puts "Type 'show' to reveal solution"
+    puts "Type 'exit!' to exit the game"
+    puts " " 
   end
 
   def self.user_output(text)
     puts text
+    puts " "
   end
 
   def self.user_input
@@ -65,14 +69,46 @@ module Ui
 
 end
 
+class Game
+  include Ui
+  
+  def initialize(deck)
+    @card_array = deck.card_array
+    play_deck
+  end
+
+  def play_deck
+    splash_screen
+    @card_array.each do |card|
+      break if play_card(card) == "break" 
+    end
+    Ui::user_output("Thanks for playing!")
+
+  end
+
+  def play_card(card)
+    Ui::user_output("Definition: #{card.definition}")
+    answer = Ui::user_input
+    if evaluate_answer(card, answer)
+      Ui::user_output("Correct!")
+    elsif answer == "show"
+      Ui::user_output("The answer is: #{card.answer}!")
+    elsif answer == "exit!"
+      return "break"
+    else
+      Ui::user_output("Erroneous!!")
+      play_card(card)
+    end
+  end
+
+  def evaluate_answer(card, answer)
+    card.answer == answer
+  end
+
+end
+
 ########## Driver code #########
 
-Ui::splash_screen
-Ui::user_output("This works!")
-x = Ui::user_input
-Ui::user_output("You guessed: #{x}")
+deck1 = Deck.new('cards.txt')
+Game.new(deck1)
 
-# deck1 = Deck.new('cards.txt')
-# deck1.card_array.each do |card|
-#   puts card.answer
-# end   
